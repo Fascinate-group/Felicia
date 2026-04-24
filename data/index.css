@@ -350,7 +350,7 @@ nav {
 /* Cast grid - portrait cards */
 .cast-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   gap: 1.4rem;
 }
 
