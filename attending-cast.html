@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0d0015" />
+  <title>出席キャスト一覧 | 闇堕ち少女酒場いくりぷ</title>
+  <meta name="description" content="URLパラメーターで指定したキャストだけを表示する、闇堕ち少女酒場いくりぷの出席キャスト一覧ページです。" />
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="canonical" href="__SITE_URL__/attending-cast.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="出席キャスト一覧 | 闇堕ち少女酒場いくりぷ" />
+  <meta property="og:description" content="URLパラメーターで指定したキャストだけを表示する一覧ページです。" />
+  <meta property="og:url" content="__SITE_URL__/attending-cast.html" />
+  <meta property="og:image" content="__SITE_URL__/images/title.png" />
+  <meta property="og:image:alt" content="闇堕ち少女酒場いくりぷのメインビジュアル" />
+  <meta property="og:site_name" content="闇堕ち少女酒場いくりぷ" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="出席キャスト一覧 | 闇堕ち少女酒場いくりぷ" />
+  <meta name="twitter:description" content="URLパラメーターで指定したキャストだけを表示する一覧ページです。" />
+  <meta name="twitter:image" content="__SITE_URL__/images/title.png" />
+  <meta name="twitter:image:alt" content="闇堕ち少女酒場いくりぷのメインビジュアル" />
+  <link rel="icon" href="images/logo.png" type="image/png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="data/index.css" />
+</head>
+<body class="subpage-body">
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="キャスト画像">
+  <button class="lb-arrow" id="lb-prev" aria-label="前のキャスト">‹</button>
+  <div id="lb-stage">
+    <img id="lb-img-cur" src="" alt="" />
+    <img id="lb-img-next" src="" alt="" aria-hidden="true" />
+  </div>
+  <button class="lb-arrow" id="lb-next" aria-label="次のキャスト">›</button>
+  <button id="lightbox-close" aria-label="閉じる">✕</button>
+</div>
+
+<div class="stars" id="stars" aria-hidden="true"></div>
+
+<main class="attending-page">
+  <div class="container attending-page-inner">
+    <a href="./" class="attending-back-link">← トップへ戻る</a>
+
+    <section class="attending-section reveal visible" aria-labelledby="attending-cast-title">
+      <h1 class="section-title" id="attending-cast-title">出勤キャスト</h1>
+      <div class="cast-grid" id="attending-cast-grid"></div>
+      <div class="attending-empty" id="attending-empty" hidden>
+        <p class="attending-empty-title">このURLは使用できません</p>
+        <p class="attending-empty-copy">
+          最新のURLを運営からもらってください。
+        </p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="data/cast-data.js"></script>
+<script src="data/attending-cast.js"></script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#fdfbf7" />
+  <title>Felicia - 天使との対話型RPイベント</title>
+  <meta name="description" content="VRChat上のロールプレイイベント「Felicia」公式サイト。個性豊かな天使様たちとの1対1の対話をお楽しみいただけるイベントです。" />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="__SITE_URL__/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Felicia - 天使との対話型RPイベント" />
+  <meta property="og:description" content="VRChat上のロールプレイイベント「Felicia」公式サイト。個性豊かな天使様たちとの1対1の対話をお楽しみいただけるイベントです。" />
+  <meta property="og:url" content="__SITE_URL__/" />
+  <meta property="og:image" content="__SITE_URL__/images/Felicia_Banner.jpg" />
+  <meta property="og:image:alt" content="Feliciaメインビジュアル" />
+  <meta property="og:site_name" content="Felicia" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Felicia - 天使との対話型RPイベント" />
+  <meta name="twitter:description" content="VRChat上のロールプレイイベント「Felicia」公式サイト。個性豊かな天使様たちとの1対1の対話をお楽しみいただけるイベントです。" />
+  <meta name="twitter:image" content="__SITE_URL__/images/Felicia_Banner.jpg" />
+  <meta name="twitter:image:alt" content="Feliciaメインビジュアル" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Felicia",
+      "url": "__SITE_URL__/",
+      "description": "VRChat上のロールプレイイベント「Felicia」公式サイト。個性豊かな天使様たちとの1対1の対話をお楽しみいただけるイベントです。",
+      "inLanguage": "ja",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Felicia"
+      }
+    }
+  </script>
+  <link rel="icon" href="images/Felicia_Logo.png" type="image/png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="data/index.css" />
+</head>
+<body>
+
+<!-- Lightbox -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="キャスト画像">
+  <button class="lb-arrow" id="lb-prev" aria-label="前のキャスト">‹</button>
+  <div id="lb-stage">
+    <img id="lb-img-cur" src="" alt="" />
+    <img id="lb-img-next" src="" alt="" aria-hidden="true" />
+  </div>
+  <button class="lb-arrow" id="lb-next" aria-label="次のキャスト">›</button>
+  <button id="lightbox-close" aria-label="閉じる">✕</button>
+</div>
+
+<!-- Feathers -->
+<div id="feathers" aria-hidden="true"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-title">
+      <span class="nav-title-ja">天使の庭園</span>
+      <span class="nav-title-en">Felicia</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#concept">コンセプト</a></li>
+      <li><a href="#about">イベント情報</a></li>
+      <li><a href="#cast">キャスト</a></li>
+      <li><a href="#campaign">キャンペーン</a></li>
+      <li><a href="#notice">注意事項</a></li>
+      <li><a href="#video">動画</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <img src="images/Felicia_Logo.png" alt="Felicia" class="hero-logo js-hide-on-error" />
+  <p class="hero-scroll" aria-hidden="true">SCROLL</p>
+</section>
+
+<!-- Concept -->
+<section id="concept">
+  <div class="container">
+    <h2 class="section-title reveal">
+      <span>CONCEPT</span>
+      コンセプト
+    </h2>
+    <div class="divider"></div>
+    <div class="concept-center reveal">
+      <img src="images/Felicia_Concept.png" alt="Feliciaコンセプトビジュアル" class="concept-image" loading="lazy" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<!-- About / Event Info -->
+<section id="about">
+  <div class="container">
+    <h2 class="section-title reveal">
+      <span>EVENT INFO</span>
+      イベント情報
+    </h2>
+    <div class="divider"></div>
+    <div class="about-grid">
+      <div class="info-card reveal">
+        <div class="card-icon">📅</div>
+        <h3>開催日時</h3>
+        <p>
+          <strong>第２週 土曜日</strong><br />
+          <strong>第４週 土曜日</strong><br />
+          <small class="text-sub">（月によって変動あり）</small><br />
+          営業時間：<strong>22:25（リクイン開始）〜 23:30</strong><br />
+          <small class="text-sub">※詳細な開催日時やリクイン先は公式 <a href="https://x.com/felicia_VRC" target="_blank" rel="noopener noreferrer" class="info-link">@felicia_VRC</a> にてご確認ください</small>
+        </p>
+      </div>
+      <div class="info-card reveal">
+        <div class="card-icon">✨</div>
+        <h3>イベント形式</h3>
+        <p>
+          接客系イベント（1対1 または 1対キャスト多数）<br />
+          通常は先着指名制でキャストが決まります。<br />
+          <small class="text-sub">（キャンペーン特典で優先して指名が可）</small>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cast -->
+<section id="cast">
+  <div class="cast-bg" aria-hidden="true"></div>
+  <div class="container">
+    <h2 class="section-title reveal">
+      <span>CAST</span>
+      キャスト紹介
+    </h2>
+    <div class="divider"></div>
+    <!-- キャストは data/cast-data.js から動的に生成されます -->
+    <div class="cast-grid" id="cast-grid"></div>
+  </div>
+</section>
+
+<!-- Campaign -->
+<section id="campaign">
+  <div class="container">
+    <h2 class="section-title reveal">
+      <span>CAMPAIGN</span>
+      リポストキャンペーン
+    </h2>
+    <div class="divider"></div>
+    <div class="campaign-inner reveal">
+      <p class="campaign-title">🌸 リポストキャンペーン開催中！</p>
+      <div class="campaign-cards">
+        <div class="campaign-item">
+          <h4>📌 参加方法</h4>
+          <p>
+            本アカウントを<strong>フォロー</strong>＆<br />
+            本ポストを<strong>RP</strong>された方の中から<br />
+            抽選で <strong class="text-gold text-lg">２名の方</strong>を<br />
+            <strong class="text-gold">お茶会にご招待！</strong>
+          </p>
+        </div>
+        <div class="campaign-item">
+          <h4>🌟 当選特典</h4>
+          <p>
+            通常は先着指名制ですが、<br />
+            当選された方には<br />
+            RPキャンペーン特典として<br />
+            お話ししたい天使様を<br />
+            <strong class="text-gold">優先して指名</strong>していただけます。
+          </p>
+        </div>
+      </div>
+      <div class="campaign-note">
+        <strong>注意点</strong><br />
+        ・応募者多数の場合、抽選となります。<br />
+        ・当選されたお客様へは、前日までに公式アカウントより、抽選結果のDMをお送りさせていただきます。<br />
+        ・その他問い合わせにつきましては、公式XのDMにてご連絡ください。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Notice -->
+<section id="notice">
+  <div class="container">
+    <h2 class="section-title reveal">
+      <span>NOTICE</span>
+      注意事項
+    </h2>
+    <div class="divider"></div>
+    <div class="notice-box reveal">
+      <ul>
+        <li>アバター容量が50MBを超えないものでお願いします。</li>
+        <li>天使様やほかの参加者の方に悪影響のある服装（過度に露出の高い服装（卑猥な表現のあるアバター）、視界ジャックのギミックがあるもの）でのご来園はおやめください。</li>
+        <li>その他、過度な光や音が出るギミックなど、周囲の迷惑となる行為はご遠慮ください。</li>
+      </ul>
+      <p class="notice-footnote">
+        ※以上の要項に該当する場合や、スタッフが不適切と判断した際は、アバターの変更をお願いしたり、ご退場いただく場合がございます。あらかじめご了承ください。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Video -->
+<section id="video">
+  <div class="container">
+    <h2 class="section-title reveal">
+      <span>MOVIE</span>
+      イベント紹介動画
+    </h2>
+    <div class="divider"></div>
+    <div class="video-wrap reveal">
+      <!-- 動画ファイルを video/ フォルダに配置してください（例: video/felicia.mp4） -->
+      <video id="event-video" controls playsinline poster="images/Felicia_Banner.jpg">
+        <source src="video/felicia.mp4" type="video/mp4" />
+        <source src="video/movie.mp4" type="video/mp4" />
+        <source src="video/pv.mp4" type="video/mp4" />
+        <p>お使いのブラウザは動画の再生に対応していません。</p>
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <img src="images/Felicia_Logo.png" alt="Felicia" class="footer-logo js-hide-on-error" loading="lazy" decoding="async" />
+  <br />
+  <a href="https://x.com/felicia_VRC" target="_blank" rel="noopener noreferrer" class="twitter-btn">
+    <img src="images/x-logo.svg" alt="" aria-hidden="true" class="twitter-btn-icon" />
+    公式 X（Twitter）
+  </a>
+  <p class="footer-copy">© Felicia All rights reserved.</p>
+</footer>
+
+<script src="data/cast-data.js"></script>
+<script src="data/index.js"></script>
+</body>
+</html>

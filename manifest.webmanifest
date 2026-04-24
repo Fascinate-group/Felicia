@@ -1,0 +1,15 @@
+{
+  "name": "闇堕ち少女酒場いくりぷ",
+  "short_name": "いくりぷ",
+  "start_url": "__SITE_URL__/",
+  "display": "standalone",
+  "background_color": "#0d0015",
+  "theme_color": "#0d0015",
+  "icons": [
+    {
+      "src": "images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
