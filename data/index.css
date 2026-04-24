@@ -363,6 +363,12 @@ nav {
   gap: 1.4rem;
 }
 
+@media (max-width: 500px) {
+  .cast-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .cast-card {
   position: relative;
   z-index: 3;
