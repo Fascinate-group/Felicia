@@ -272,7 +272,7 @@ nav {
 }
 
 .concept-image {
-  width: min(560px, 90vw);
+  width: min(820px, 92vw);
   height: auto;
   position: relative;
   z-index: 3;
@@ -352,12 +352,14 @@ nav {
 #cast .container {
   position: relative;
   z-index: 2;
+  width: min(1200px, 94%);
 }
 
 /* Cast grid - portrait cards */
 .cast-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(130px, 47%), 1fr));
+  grid-template-columns: repeat(auto-fill, 145px);
+  justify-content: center;
   gap: 1.4rem;
 }
 
