@@ -184,9 +184,24 @@ nav {
   padding-top: 12vh;
   position: relative;
   overflow: hidden;
-  background:
-    url('../images/Felicia_Background.png') center / cover no-repeat,
-    linear-gradient(175deg, #bde0ff 0%, #d8efff 30%, #fdfbf7 100%);
+  background: linear-gradient(175deg, #bde0ff 0%, #d8efff 30%, #fdfbf7 100%);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+.hero-bg--1 {
+  background-image: url('../images/Felicia_Background.png');
+  transform: translateX(0);
+}
+.hero-bg--2 {
+  background-image: url('../images/Felicia_Background_2.png');
+  transform: translateX(100%);
 }
 
 .hero-overlay { display: none; }

@@ -1,3 +1,29 @@
+/* ===== Hero background slideshow ===== */
+(function () {
+	const slides = [
+		document.querySelector('.hero-bg--1'),
+		document.querySelector('.hero-bg--2')
+	];
+	let current = 0;
+
+	function nextSlide() {
+		const next = (current + 1) % slides.length;
+
+		slides[next].style.transition = 'none';
+		slides[next].style.transform  = 'translateX(100%)';
+		slides[next].getBoundingClientRect();
+
+		slides[current].style.transition = 'transform 1s ease-in-out';
+		slides[current].style.transform  = 'translateX(-100%)';
+		slides[next].style.transition    = 'transform 1s ease-in-out';
+		slides[next].style.transform     = 'translateX(0)';
+
+		current = next;
+	}
+
+	setInterval(nextSlide, 10000);
+})();
+
 /* ===== Feathers ===== */
 (function () {
 	const container = document.getElementById('feathers');
