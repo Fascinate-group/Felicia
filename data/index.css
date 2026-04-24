@@ -157,10 +157,21 @@ nav {
 }
 .nav-links a:hover { color: var(--gold); }
 
-@media (max-width: 768px) { nav { display: none; } }
-@media (max-width: 500px) {
-  .nav-links { gap: 1rem; }
-  .nav-links a { font-size: .75rem; }
+@media (max-width: 768px) {
+  nav { padding: .4rem 1rem; }
+  .nav-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .25rem;
+  }
+  .nav-title { gap: .3rem; }
+  .nav-title-ja { font-size: .48rem; }
+  .nav-title-en { font-size: .85rem; }
+  .nav-links {
+    gap: .5rem;
+    flex-wrap: wrap;
+  }
+  .nav-links a { font-size: .6rem; letter-spacing: .05em; }
 }
 
 /* ===== Hero ===== */
@@ -190,7 +201,7 @@ nav {
 
 .hero-scroll {
   position: absolute;
-  bottom: 2.5rem;
+  bottom: 5rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
@@ -350,7 +361,7 @@ nav {
 /* Cast grid - portrait cards */
 .cast-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(130px, 47%), 1fr));
   gap: 1.4rem;
 }
 
