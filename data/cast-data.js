@@ -20,8 +20,8 @@ window.CAST_DATA = [
   },
   {
     order: 4,
-    name: "ルーナ・エスタレラ",
-    image: "images/cast/004_ルーナ・エスタレラ.png"
+    name: "ルーナ・エステレラ",
+    image: "images/cast/004_ルーナ・エステレラ.png"
   },
   {
     order: 5,
@@ -40,13 +40,13 @@ window.CAST_DATA = [
   },
   {
     order: 8,
-    name: "グレイ・ルノワイ",
-    image: "images/cast/008_グレイ・ルノワイ.png"
+    name: "グレイ・スレノディー",
+    image: "images/cast/008_グレイ・スレノディー.png"
   },
   {
     order: 9,
-    name: "ラウァエル",
-    image: "images/cast/009_ラウァエル.png"
+    name: "ラヴァエル",
+    image: "images/cast/009_ラヴァエル.png"
   },
   {
     order: 10,
