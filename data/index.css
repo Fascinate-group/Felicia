@@ -201,7 +201,7 @@ nav {
 
 .hero-scroll {
   position: absolute;
-  bottom: 5rem;
+  bottom: 7rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
@@ -274,10 +274,6 @@ nav {
 .concept-image {
   width: min(560px, 90vw);
   height: auto;
-  border-radius: 22px;
-  box-shadow:
-    0 8px 60px rgba(201, 161, 74, .22),
-    0 2px 16px rgba(0, 0, 0, .07);
   position: relative;
   z-index: 3;
 }
