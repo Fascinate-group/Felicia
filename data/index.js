@@ -127,6 +127,17 @@ function stageW() {
 	return lbStage.offsetWidth || window.innerWidth;
 }
 
+/* 前後の画像をブラウザキャッシュに先読みする */
+function preloadAdjacent(index) {
+	if (lbDataset.length < 2) return;
+	const prevIdx = (index - 1 + lbDataset.length) % lbDataset.length;
+	const nextIdx = (index + 1) % lbDataset.length;
+	[prevIdx, nextIdx].forEach(i => {
+		const img = new Image();
+		img.src = lbSrcFn(lbDataset[i]);
+	});
+}
+
 function openLightboxWith(dataset, srcFn, altFn, index) {
 	lbDataset = dataset;
 	lbSrcFn   = srcFn;
@@ -142,6 +153,8 @@ function openLightboxWith(dataset, srcFn, altFn, index) {
 	lbImgNext.src = '';
 	lbImgNext.style.transition = 'none';
 	lbImgNext.style.transform  = 'translateX(100%)';
+
+	preloadAdjacent(lbIndex);
 
 	lightbox.classList.add('open');
 	document.body.style.overflow = 'hidden';
@@ -195,6 +208,7 @@ function slideAnimate(nextIndex, direction) {
 			lbImgNext.style.transform  = `translateX(${ inX }px)`;
 			lbImgNext.src = '';
 			lbAnimating   = false;
+			preloadAdjacent(lbIndex);
 		};
 
 		lbImgCur.onload  = finalize;
@@ -318,6 +332,7 @@ lightbox.addEventListener('touchend', event => {
 				swipePreparedDir = null;
 				swipeNextIndex   = -1;
 				lbAnimating      = false;
+				preloadAdjacent(lbIndex);
 			};
 
 			lbImgCur.onload  = finalize;
