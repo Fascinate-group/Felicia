@@ -179,6 +179,7 @@ function openLightboxWith(dataset, srcFn, altFn, index) {
 	lbImgNext.src = '';
 	lbImgNext.style.transition = 'none';
 	lbImgNext.style.transform  = 'translateX(100%)';
+	lbImgNext.style.opacity    = '1';
 
 	preloadAdjacent(lbIndex);
 
@@ -201,49 +202,60 @@ function slideAnimate(nextIndex, direction) {
 	if (lbAnimating) return;
 	lbAnimating = true;
 
-	const sw   = stageW();
-	const outX = direction === 'next' ? -sw : sw;
-	const inX  = direction === 'next' ?  sw : -sw;
 	const item = lbDataset[nextIndex];
 
-	lbImgNext.src = lbSrcFn(item);
-	lbImgNext.alt = '';
+	/* 次画像を透明状態でステージに重ねて準備 */
 	lbImgNext.style.transition = 'none';
-	lbImgNext.style.transform  = `translateX(${ inX }px)`;
-
-	lbImgNext.getBoundingClientRect();
-
-	lbImgCur.style.transition  = 'transform .25s ease';
-	lbImgCur.style.transform   = `translateX(${ outX }px)`;
-	lbImgNext.style.transition = 'transform .25s ease';
 	lbImgNext.style.transform  = 'translateX(0)';
+	lbImgNext.style.opacity    = '0';
 
-	setTimeout(() => {
-		lbIndex = nextIndex;
+	const doFade = () => {
+		lbImgNext.onload = lbImgNext.onerror = null;
+		lbImgNext.getBoundingClientRect(); // reflow
 
-		/* lbImgCur はまだオフスクリーン（outX）にいる状態で src を差し替え
-		   → 画面外での変更なのでフラッシュが発生しない */
-		lbImgCur.style.transition = 'none';
-		lbImgCur.onload = lbImgCur.onerror = null;
+		/* クロスフェード: 現画像フェードアウト ＆ 次画像フェードイン */
+		lbImgCur.style.transition  = 'opacity .3s ease';
+		lbImgCur.style.opacity     = '0';
+		lbImgNext.style.transition = 'opacity .3s ease';
+		lbImgNext.style.opacity    = '1';
 
-		const finalize = () => {
+		setTimeout(() => {
+			lbIndex = nextIndex;
+
+			/* lbImgCur を不透明に戻してから src を差し替え */
+			lbImgCur.style.transition = 'none';
+			lbImgCur.style.opacity    = '1';
 			lbImgCur.onload = lbImgCur.onerror = null;
-			/* 新画像ロード完了後に 0 へ移動 & lbImgNext を退避 */
-			lbImgCur.style.transform   = 'translateX(0)';
-			lbImgNext.style.transition = 'none';
-			lbImgNext.style.transform  = `translateX(${ inX }px)`;
-			lbImgNext.src = '';
-			lbAnimating   = false;
-			preloadAdjacent(lbIndex);
-		};
 
-		lbImgCur.onload  = finalize;
-		lbImgCur.onerror = finalize;
-		lbImgCur.src = lbSrcFn(item);
-		lbImgCur.alt = lbAltFn(item);
+			const finalize = () => {
+				lbImgCur.onload = lbImgCur.onerror = null;
+				lbImgCur.style.transform   = 'translateX(0)';
+				/* lbImgNext をオフスクリーンにリセット */
+				lbImgNext.style.transition = 'none';
+				lbImgNext.style.transform  = 'translateX(100%)';
+				lbImgNext.style.opacity    = '1';
+				lbImgNext.src = '';
+				lbAnimating   = false;
+				preloadAdjacent(lbIndex);
+			};
 
-		if (lbImgCur.complete) finalize();
-	}, 260);
+			lbImgCur.onload  = finalize;
+			lbImgCur.onerror = finalize;
+			lbImgCur.src = lbSrcFn(item);
+			lbImgCur.alt = lbAltFn(item);
+
+			if (lbImgCur.complete) finalize();
+		}, 320);
+	};
+
+	/* キャッシュ済みなら即フェード、未ロードなら onload 後 */
+	lbImgNext.src = lbSrcFn(item);
+	if (lbImgNext.complete) {
+		doFade();
+	} else {
+		lbImgNext.onload  = doFade;
+		lbImgNext.onerror = doFade;
+	}
 }
 
 function showPrev() {
@@ -319,9 +331,10 @@ lightbox.addEventListener('touchmove', event => {
 			? (lbIndex + 1) % lbDataset.length
 			: (lbIndex - 1 + lbDataset.length) % lbDataset.length;
 		const ni = lbDataset[swipeNextIndex];
-		lbImgNext.src = lbSrcFn(ni);
-		lbImgNext.alt = '';
-		lbImgNext.style.transform = `translateX(${ dxDir === 'next' ? sw : -sw }px)`;
+		lbImgNext.src     = lbSrcFn(ni);
+		lbImgNext.alt     = '';
+		lbImgNext.style.opacity    = '1';
+		lbImgNext.style.transform  = `translateX(${ dxDir === 'next' ? sw : -sw }px)`;
 	}
 	lbImgCur.style.transform  = `translateX(${ dx }px)`;
 	lbImgNext.style.transform = dxDir === 'next'
