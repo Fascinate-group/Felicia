@@ -71,14 +71,14 @@
       <li><a href="#campaign">キャンペーン</a></li>
       <li><a href="#notice">注意事項</a></li>
       <li><a href="#video">動画</a></li>
+      <li><a href="#gallery">ギャラリー</a></li>
     </ul>
   </div>
 </nav>
 
 <!-- Hero -->
 <section id="hero">
-  <div class="hero-bg hero-bg--1" aria-hidden="true"></div>
-  <div class="hero-bg hero-bg--2" aria-hidden="true"></div>
+  <!-- .hero-bg スライドは JS が images/bg/ を探索して動的生成 -->
   <div class="hero-overlay" aria-hidden="true"></div>
   <img src="images/Felicia_Logo.png" alt="Felicia" class="hero-logo js-hide-on-error" />
   <p class="hero-scroll" aria-hidden="true">SCROLL</p>
@@ -228,6 +228,19 @@
   </div>
 </section>
 
+<!-- Gallery -->
+<section id="gallery">
+  <div class="container">
+    <h2 class="section-title reveal">
+      <span>GALLERY</span>
+      ギャラリー
+    </h2>
+    <div class="divider"></div>
+    <!-- 画像は data/gallery-data.js から動的に生成されます -->
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
 <!-- Footer -->
 <footer>
   <img src="images/Felicia_Logo.png" alt="Felicia" class="footer-logo js-hide-on-error" loading="lazy" decoding="async" />
@@ -240,6 +253,7 @@
 </footer>
 
 <script src="data/cast-data.js"></script>
+<script src="data/gallery-data.js"></script>
 <script src="data/index.js"></script>
 </body>
 </html>
