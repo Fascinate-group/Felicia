@@ -681,6 +681,12 @@ nav {
 #gallery {
   padding: 6rem 1.5rem;
   background: linear-gradient(180deg, var(--cream), var(--heaven) 50%, var(--cream));
+  position: relative;
+  z-index: auto; /* 背景は羽(z-index:1)の後ろに描画 */
+}
+#gallery .container {
+  position: relative;
+  z-index: 2; /* コンテンツは羽の前に描画 */
 }
 
 .gallery-grid {
