@@ -109,8 +109,8 @@ const observer = new IntersectionObserver(entries => {
 /* ===== Lightbox (汎用) ===== */
 const lightbox  = document.getElementById('lightbox');
 const lbStage   = document.getElementById('lb-stage');
-let   lbImgCur  = document.getElementById('lb-img-cur');
-let   lbImgNext = document.getElementById('lb-img-next');
+const lbImgCur  = document.getElementById('lb-img-cur');
+const lbImgNext = document.getElementById('lb-img-next');
 const lbClose   = document.getElementById('lightbox-close');
 const lbPrev    = document.getElementById('lb-prev');
 const lbNext    = document.getElementById('lb-next');
@@ -182,17 +182,27 @@ function slideAnimate(nextIndex, direction) {
 	setTimeout(() => {
 		lbIndex = nextIndex;
 
-		/* lbImgNext が新画像を表示中なのでそのまま cur に昇格させる */
-		const tmp = lbImgCur;
-		lbImgCur  = lbImgNext;
-		lbImgNext = tmp;
+		/* lbImgCur はまだオフスクリーン（outX）にいる状態で src を差し替え
+		   → 画面外での変更なのでフラッシュが発生しない */
+		lbImgCur.style.transition = 'none';
+		lbImgCur.onload = lbImgCur.onerror = null;
 
-		/* 旧 cur（now next）をオフスクリーンへ退避してクリア */
-		lbImgNext.style.transition = 'none';
-		lbImgNext.style.transform  = `translateX(${ inX }px)`;
-		lbImgNext.src = '';
+		const finalize = () => {
+			lbImgCur.onload = lbImgCur.onerror = null;
+			/* 新画像ロード完了後に 0 へ移動 & lbImgNext を退避 */
+			lbImgCur.style.transform   = 'translateX(0)';
+			lbImgNext.style.transition = 'none';
+			lbImgNext.style.transform  = `translateX(${ inX }px)`;
+			lbImgNext.src = '';
+			lbAnimating   = false;
+		};
 
-		lbAnimating = false;
+		lbImgCur.onload  = finalize;
+		lbImgCur.onerror = finalize;
+		lbImgCur.src = lbSrcFn(item);
+		lbImgCur.alt = lbAltFn(item);
+
+		if (lbImgCur.complete) finalize();
 	}, 260);
 }
 
@@ -207,9 +217,7 @@ function showNext() {
 lbClose.addEventListener('click', closeLightbox);
 lbPrev.addEventListener('click', event => { event.stopPropagation(); showPrev(); });
 lbNext.addEventListener('click', event => { event.stopPropagation(); showNext(); });
-/* swap後もどちらの要素をクリックしても閉じられるよう両方に付ける */
-document.getElementById('lb-img-cur').addEventListener('click', closeLightbox);
-document.getElementById('lb-img-next').addEventListener('click', closeLightbox);
+lbImgCur.addEventListener('click', closeLightbox);
 lightbox.addEventListener('click', event => {
 	if (event.target === lightbox) closeLightbox();
 });
@@ -298,17 +306,25 @@ lightbox.addEventListener('touchend', event => {
 		setTimeout(() => {
 			lbIndex = finalIdx;
 
-			/* swap: lbImgNext（新画像表示中）を cur に昇格 */
-			const tmp = lbImgCur;
-			lbImgCur  = lbImgNext;
-			lbImgNext = tmp;
+			lbImgCur.style.transition = 'none';
+			lbImgCur.onload = lbImgCur.onerror = null;
 
-			lbImgNext.style.transition = 'none';
-			lbImgNext.style.transform  = `translateX(${ inX }px)`;
-			lbImgNext.src    = '';
-			swipePreparedDir = null;
-			swipeNextIndex   = -1;
-			lbAnimating      = false;
+			const finalize = () => {
+				lbImgCur.onload = lbImgCur.onerror = null;
+				lbImgCur.style.transform   = 'translateX(0)';
+				lbImgNext.style.transition = 'none';
+				lbImgNext.style.transform  = `translateX(${ inX }px)`;
+				lbImgNext.src    = '';
+				swipePreparedDir = null;
+				swipeNextIndex   = -1;
+				lbAnimating      = false;
+			};
+
+			lbImgCur.onload  = finalize;
+			lbImgCur.onerror = finalize;
+			lbImgCur.src = lbSrcFn(finalItem);
+			lbImgCur.alt = lbAltFn(finalItem);
+			if (lbImgCur.complete) finalize();
 		}, 220);
 	} else {
 		lbImgCur.style.transition = 'transform .2s ease';
