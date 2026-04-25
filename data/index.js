@@ -207,7 +207,7 @@ function slideAnimate(nextIndex, direction) {
 	const item = lbDataset[nextIndex];
 
 	lbImgNext.src = lbSrcFn(item);
-	lbImgNext.alt = lbAltFn(item);
+	lbImgNext.alt = '';
 	lbImgNext.style.transition = 'none';
 	lbImgNext.style.transform  = `translateX(${ inX }px)`;
 
@@ -320,7 +320,7 @@ lightbox.addEventListener('touchmove', event => {
 			: (lbIndex - 1 + lbDataset.length) % lbDataset.length;
 		const ni = lbDataset[swipeNextIndex];
 		lbImgNext.src = lbSrcFn(ni);
-		lbImgNext.alt = lbAltFn(ni);
+		lbImgNext.alt = '';
 		lbImgNext.style.transform = `translateX(${ dxDir === 'next' ? sw : -sw }px)`;
 	}
 	lbImgCur.style.transform  = `translateX(${ dx }px)`;

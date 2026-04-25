@@ -483,6 +483,9 @@ nav {
   z-index: 2;
   transform: translateX(100%);
   pointer-events: none;
+  /* alt テキストを非表示（ロード前の文字はみ出し対策） */
+  color: transparent;
+  font-size: 0;
 }
 
 #lightbox-close {
