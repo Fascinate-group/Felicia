@@ -1,11 +1,11 @@
 // キャスト画像は images/cast/ フォルダに配置してください
-// サムネイル: XXX_名前.png  /  詳細(クリック時): XXX_名前_Detail.jpg
+// サムネイル: XXX_名前.png  /  詳細(クリック時): XXX_名前_Detail.jpg or .png
 window.CAST_DATA = [
   {
     order: 1,
     name: "アステリア",
     image: "images/cast/001_アステリア.png",
-    detailImage: "images/cast/001_アステリア_Detaill.jpg"
+    detailImage: "images/cast/001_アステリア_Detail.jpg"
   },
   {
     order: 2,
@@ -16,131 +16,150 @@ window.CAST_DATA = [
   {
     order: 3,
     name: "モチ=もち",
-    image: "images/cast/003_モチ=もち.png"
+    image: "images/cast/003_モチ=もち.png",
+    detailImage: "images/cast/003_モチ=もち_Detail.png"
   },
   {
     order: 4,
-    name: "ルーナ・エスタレラ",
-    image: "images/cast/004_ルーナ・エスタレラ.png"
+    name: "ルーナ・エステレラ",
+    image: "images/cast/004_ルーナ・エステレラ.png",
+    detailImage: "images/cast/004_ルーナ・エステレラ_Detail.png"
   },
   {
     order: 5,
     name: "アネモネ",
-    image: "images/cast/005_アネモネ.png"
+    image: "images/cast/005_アネモネ.png",
+    detailImage: "images/cast/005_アネモネ_Detail.png"
   },
   {
     order: 6,
     name: "フローレア",
-    image: "images/cast/006_フローレア.png"
+    image: "images/cast/006_フローレア.png",
+    detailImage: "images/cast/006_フローレア_Detail.png"
   },
   {
     order: 7,
     name: "アキピテル",
-    image: "images/cast/007_アキピテル.png"
+    image: "images/cast/007_アキピテル.png",
+    detailImage: "images/cast/007_アキピテル_Detail.png"
   },
   {
     order: 8,
-    name: "グレイ・ルノワイ",
-    image: "images/cast/008_グレイ・ルノワイ.png"
+    name: "グレイ・スレノディー",
+    image: "images/cast/008_グレイ・スレノディー.png",
+    detailImage: "images/cast/008_グレイ・スレノディー_Detail.png"
   },
   {
     order: 9,
-    name: "ラウァエル",
-    image: "images/cast/009_ラウァエル.png"
+    name: "ラヴァエル",
+    image: "images/cast/009_ラヴァエル.png",
+    detailImage: "images/cast/009_ラヴァエル_Detail.png"
   },
   {
     order: 10,
     name: "ジェミレア",
-    image: "images/cast/010_ジェミレア.png"
+    image: "images/cast/010_ジェミレア.png",
+    detailImage: "images/cast/010_ジェミレア_Detail.png"
   },
   {
     order: 11,
     name: "ユビキタシア",
-    image: "images/cast/011_ユビキタシア.png"
+    image: "images/cast/011_ユビキタシア.png",
+    detailImage: "images/cast/011_ユビキタシア_Detail.png"
   },
   {
     order: 12,
     name: "ルティウス",
-    image: "images/cast/012_ルティウス.png"
+    image: "images/cast/012_ルティウス.png",
+    detailImage: "images/cast/012_ルティウス_Detail.png"
   },
   {
     order: 13,
     name: "ソーマ",
-    image: "images/cast/013_ソーマ.png"
+    image: "images/cast/013_ソーマ.png",
+    detailImage: "images/cast/013_ソーマ_Detail.png"
   },
   {
     order: 14,
     name: "シエル",
-    image: "images/cast/014_シエル.png"
+    image: "images/cast/014_シエル.png",
+    detailImage: "images/cast/014_シエル_Detail.png"
   },
   {
     order: 15,
     name: "セラフィオン",
-    image: "images/cast/015_セラフィオン.png"
+    image: "images/cast/015_セラフィオン.png",
+    detailImage: "images/cast/015_セラフィオン_Detail.png"
   },
   {
     order: 16,
-    name: "ルネ",
-    image: "images/cast/016_ルネ.png"
+    name: "ルヰ",
+    image: "images/cast/016_ルヰ.png",
+    detailImage: "images/cast/016_ルヰ_Detail.png"
   },
   {
     order: 17,
     name: "メイ",
-    image: "images/cast/017_メイ.png"
+    image: "images/cast/017_メイ.png",
+    detailImage: "images/cast/017_メイ_Detail.png"
   },
   {
     order: 18,
     name: "クロス",
-    image: "images/cast/018_クロス.png"
+    image: "images/cast/018_クロス.png",
+    detailImage: "images/cast/018_クロス_Detail.png"
   },
   {
     order: 19,
-    name: "プレット",
-    image: "images/cast/019_プレット.png"
+    name: "デレット",
+    image: "images/cast/019_デレット.png",
+    detailImage: "images/cast/019_デレット_Detail.png"
   },
   {
     order: 20,
     name: "ドニ",
-    image: "images/cast/020_ドニ.png"
+    image: "images/cast/020_ドニ.png",
+    detailImage: "images/cast/020_ドニ_Detail.png"
   },
   {
     order: 21,
-    name: "ジェミレイ",
-    image: "images/cast/021_ジェミレイ.png"
+    name: "ジェミレオ",
+    image: "images/cast/021_ジェミレオ.png",
+    detailImage: "images/cast/021_ジェミレオ_Detail.png"
   },
   {
     order: 22,
-    name: "ゅう",
-    image: "images/cast/022_ゅう.png"
+    name: "めろ",
+    image: "images/cast/022_めろ.png",
+    detailImage: "images/cast/022_めろ_Detail.png"
   },
   {
     order: 23,
     name: "ミカエラ・リキエル",
-    image: "images/cast/023_ミカエラ・リキエル.png"
+    image: "images/cast/023_ミカエラ・リキエル.png",
+    detailImage: "images/cast/023_ミカエラ・リキエル_Detail.png"
   },
   {
     order: 24,
     name: "アイン",
-    image: "images/cast/024_アイン.png"
+    image: "images/cast/024_アイン.png",
+    detailImage: "images/cast/024_アイン_Detail.png"
   },
   {
     order: 25,
-    name: "タマ・ターディエル",
-    image: "images/cast/025_タマ・ターディエル.png"
+    name: "フル=ルナリエ",
+    image: "images/cast/025_フル=ルナリエ.png",
+    detailImage: "images/cast/025_フル=ルナリエ_Detail.png"
   },
   {
     order: 26,
-    name: "フルールナリエ",
-    image: "images/cast/026_フルールナリエ.png"
+    name: "シロナ",
+    image: "images/cast/026_シロナ.png",
+    detailImage: "images/cast/026_シロナ_Detail.png"
   },
   {
     order: 27,
-    name: "シロナ",
-    image: "images/cast/027_シロナ.png"
-  },
-  {
-    order: 28,
     name: "アドルメア",
-    image: "images/cast/028_アドルメア.png"
+    image: "images/cast/027_アドルメア.png"
   }
 ];

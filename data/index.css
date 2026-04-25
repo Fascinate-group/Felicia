@@ -194,14 +194,7 @@ nav {
   background-position: center;
   background-repeat: no-repeat;
   z-index: 0;
-}
-.hero-bg--1 {
-  background-image: url('../images/Felicia_Background.png');
-  transform: translateX(0);
-}
-.hero-bg--2 {
-  background-image: url('../images/Felicia_Background_2.png');
-  transform: translateX(100%);
+  /* background-image と transform は JS が設定 */
 }
 
 .hero-overlay { display: none; }
@@ -429,18 +422,7 @@ nav {
   letter-spacing: .1em;
 }
 
-.cast-info {
-  padding: .75rem 1rem .9rem;
-  border-top: 1px solid rgba(201, 161, 74, .18);
-  background: linear-gradient(180deg, rgba(255,255,255,0), rgba(253, 248, 240, .7));
-}
-.cast-info .cast-name {
-  font-size: .88rem;
-  font-weight: 700;
-  color: var(--text-dark);
-  letter-spacing: .04em;
-  text-align: center;
-}
+/* .cast-info / .cast-name は非表示のため削除 */
 
 /* ===== Lightbox ===== */
 #lightbox {
@@ -690,6 +672,54 @@ nav {
   height: 100%;
   object-fit: contain;
   background: #1a1a1a;
+}
+
+/* ===== Gallery ===== */
+#gallery {
+  padding: 6rem 1.5rem;
+  background: linear-gradient(180deg, var(--cream), var(--heaven) 50%, var(--cream));
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.8rem;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  aspect-ratio: 1;
+  cursor: pointer;
+  background: var(--cream-mid);
+  border: 1.5px solid var(--border-gold);
+  box-shadow: 0 3px 12px rgba(201, 161, 74, .10);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 32px rgba(201, 161, 74, .28);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.06);
+}
+
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.6rem;
+  }
 }
 
 /* ===== Footer ===== */

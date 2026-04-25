@@ -1,27 +1,59 @@
 /* ===== Hero background slideshow ===== */
 (function () {
-	const slides = [
-		document.querySelector('.hero-bg--1'),
-		document.querySelector('.hero-bg--2')
-	];
-	let current = 0;
+	const BASE    = 'images/bg/Felicia_Background_';
+	const EXT     = '.png';
+	const INTERVAL = 5000; // ms
+	const DURATION = 1000;  // slide animation ms
 
-	function nextSlide() {
-		const next = (current + 1) % slides.length;
-
-		slides[next].style.transition = 'none';
-		slides[next].style.transform  = 'translateX(100%)';
-		slides[next].getBoundingClientRect();
-
-		slides[current].style.transition = 'transform 1s ease-in-out';
-		slides[current].style.transform  = 'translateX(-100%)';
-		slides[next].style.transition    = 'transform 1s ease-in-out';
-		slides[next].style.transform     = 'translateX(0)';
-
-		current = next;
+	/* 1始まりで連番ファイルを順番に存在確認し、全件揃ったらスライドショー起動 */
+	function probeImages(index, urls, onDone) {
+		const url = BASE + index + EXT;
+		const img = new Image();
+		img.onload  = function () { urls.push(url); probeImages(index + 1, urls, onDone); };
+		img.onerror = function () { onDone(urls); };
+		img.src     = url;
 	}
 
-	setInterval(nextSlide, 10000);
+	probeImages(1, [], function (urls) {
+		if (urls.length === 0) return; // 画像なし
+
+		const hero  = document.getElementById('hero');
+		const first = hero.firstChild;
+
+		/* 各URLに対応する div.hero-bg を生成（ヒーロー先頭に挿入） */
+		const divs = urls.map(function (url, i) {
+			const div = document.createElement('div');
+			div.className = 'hero-bg';
+			div.setAttribute('aria-hidden', 'true');
+			div.style.backgroundImage = 'url("' + url + '")';
+			div.style.transform       = i === 0 ? 'translateX(0)' : 'translateX(100%)';
+			hero.insertBefore(div, first);
+			return div;
+		});
+
+		if (divs.length < 2) return; // 1枚だけなら切り替え不要
+
+		let current = 0;
+
+		function nextSlide() {
+			const next = (current + 1) % divs.length;
+
+			/* 次スライドを右に即配置（アニメなし） */
+			divs[next].style.transition = 'none';
+			divs[next].style.transform  = 'translateX(100%)';
+			divs[next].getBoundingClientRect(); // reflow
+
+			/* 現スライドを左へ、次スライドを中央へ */
+			divs[current].style.transition = 'transform ' + DURATION + 'ms ease-in-out';
+			divs[current].style.transform  = 'translateX(-100%)';
+			divs[next].style.transition    = 'transform ' + DURATION + 'ms ease-in-out';
+			divs[next].style.transform     = 'translateX(0)';
+
+			current = next;
+		}
+
+		setInterval(nextSlide, INTERVAL);
+	});
 })();
 
 /* ===== Feathers ===== */
@@ -74,59 +106,7 @@ const observer = new IntersectionObserver(entries => {
 	});
 }, { threshold: 0.12 });
 
-/* ===== Cast data load & render ===== */
-let castData = [];
-let currentCastIndex = 0;
-let lastFocusedElement = null;
-
-function loadCast() {
-	castData = Array.isArray(window.CAST_DATA) ? [...window.CAST_DATA] : [];
-	castData.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-	renderCast();
-}
-
-function renderCast() {
-	const grid = document.getElementById('cast-grid');
-	grid.innerHTML = '';
-
-	castData.forEach((cast, i) => {
-		const card = document.createElement('div');
-		card.className = 'cast-card reveal visible';
-
-		const imageWrap = document.createElement('div');
-		imageWrap.className = 'cast-image';
-
-		const image = document.createElement('img');
-		image.src = cast.image;
-		image.alt = cast.name;
-		image.loading = 'lazy';
-		image.decoding = 'async';
-		image.addEventListener('error', () => {
-			const placeholder = document.createElement('div');
-			placeholder.className = 'cast-image-placeholder';
-			placeholder.textContent = cast.name;
-			imageWrap.replaceChildren(placeholder);
-		});
-		imageWrap.appendChild(image);
-
-		const info = document.createElement('div');
-		info.className = 'cast-info';
-
-		const name = document.createElement('div');
-		name.className = 'cast-name';
-		name.textContent = cast.name;
-		info.appendChild(name);
-
-		card.appendChild(imageWrap);
-		card.appendChild(info);
-		card.addEventListener('click', () => openLightbox(i));
-		grid.appendChild(card);
-	});
-}
-
-loadCast();
-
-/* ===== Lightbox ===== */
+/* ===== Lightbox (汎用) ===== */
 const lightbox  = document.getElementById('lightbox');
 const lbStage   = document.getElementById('lb-stage');
 const lbImgCur  = document.getElementById('lb-img-cur');
@@ -135,21 +115,27 @@ const lbClose   = document.getElementById('lightbox-close');
 const lbPrev    = document.getElementById('lb-prev');
 const lbNext    = document.getElementById('lb-next');
 
+/* 現在開いているデータセットと取得関数 */
+let lbDataset          = [];
+let lbSrcFn            = function (item) { return item.image; };
+let lbAltFn            = function (item) { return ''; };
+let lbIndex            = 0;
+let lbAnimating        = false;
+let lastFocusedElement = null;
+
 function stageW() {
 	return lbStage.offsetWidth || window.innerWidth;
 }
 
-function castDetailSrc(cast) {
-	return cast.detailImage || cast.image;
-}
-
-function openLightbox(index) {
-	currentCastIndex = index;
+function openLightboxWith(dataset, srcFn, altFn, index) {
+	lbDataset = dataset;
+	lbSrcFn   = srcFn;
+	lbAltFn   = altFn;
+	lbIndex   = index;
 	lastFocusedElement = document.activeElement;
-	const cast = castData[index];
 
-	lbImgCur.src = castDetailSrc(cast);
-	lbImgCur.alt = cast.name;
+	lbImgCur.src = lbSrcFn(lbDataset[lbIndex]);
+	lbImgCur.alt = lbAltFn(lbDataset[lbIndex]);
 	lbImgCur.style.transition = 'none';
 	lbImgCur.style.transform  = 'translateX(0)';
 
@@ -172,8 +158,6 @@ function closeLightbox() {
 	}
 }
 
-let lbAnimating = false;
-
 function slideAnimate(nextIndex, direction) {
 	if (lbAnimating) return;
 	lbAnimating = true;
@@ -181,10 +165,10 @@ function slideAnimate(nextIndex, direction) {
 	const sw   = stageW();
 	const outX = direction === 'next' ? -sw : sw;
 	const inX  = direction === 'next' ?  sw : -sw;
-	const cast = castData[nextIndex];
+	const item = lbDataset[nextIndex];
 
-	lbImgNext.src = castDetailSrc(cast);
-	lbImgNext.alt = cast.name;
+	lbImgNext.src = lbSrcFn(item);
+	lbImgNext.alt = lbAltFn(item);
 	lbImgNext.style.transition = 'none';
 	lbImgNext.style.transform  = `translateX(${ inX }px)`;
 
@@ -196,7 +180,7 @@ function slideAnimate(nextIndex, direction) {
 	lbImgNext.style.transform  = 'translateX(0)';
 
 	setTimeout(() => {
-		currentCastIndex = nextIndex;
+		lbIndex = nextIndex;
 		lbImgCur.style.transition = 'none';
 		lbImgCur.style.transform  = 'translateX(0)';
 
@@ -210,19 +194,19 @@ function slideAnimate(nextIndex, direction) {
 
 		lbImgCur.onload  = revealCur;
 		lbImgCur.onerror = revealCur;
-		lbImgCur.src = castDetailSrc(cast);
-		lbImgCur.alt = cast.name;
+		lbImgCur.src = lbSrcFn(item);
+		lbImgCur.alt = lbAltFn(item);
 
 		if (lbImgCur.complete) revealCur();
 	}, 260);
 }
 
 function showPrev() {
-	slideAnimate((currentCastIndex - 1 + castData.length) % castData.length, 'prev');
+	slideAnimate((lbIndex - 1 + lbDataset.length) % lbDataset.length, 'prev');
 }
 
 function showNext() {
-	slideAnimate((currentCastIndex + 1) % castData.length, 'next');
+	slideAnimate((lbIndex + 1) % lbDataset.length, 'next');
 }
 
 lbClose.addEventListener('click', closeLightbox);
@@ -282,18 +266,16 @@ lightbox.addEventListener('touchmove', event => {
 		swipeDir = Math.abs(dx) >= Math.abs(dy) ? 'h' : 'v';
 	}
 	if (swipeDir !== 'h') return;
-	const sw     = stageW();
-	const dxDir  = dx <= 0 ? 'next' : 'prev';
+	const sw    = stageW();
+	const dxDir = dx <= 0 ? 'next' : 'prev';
 	if (swipePreparedDir !== dxDir) {
 		swipePreparedDir = dxDir;
-		if (dxDir === 'next') {
-			swipeNextIndex = (currentCastIndex + 1) % castData.length;
-		} else {
-			swipeNextIndex = (currentCastIndex - 1 + castData.length) % castData.length;
-		}
-		const nc = castData[swipeNextIndex];
-		lbImgNext.src = castDetailSrc(nc);
-		lbImgNext.alt = nc.name;
+		swipeNextIndex   = dxDir === 'next'
+			? (lbIndex + 1) % lbDataset.length
+			: (lbIndex - 1 + lbDataset.length) % lbDataset.length;
+		const ni = lbDataset[swipeNextIndex];
+		lbImgNext.src = lbSrcFn(ni);
+		lbImgNext.alt = lbAltFn(ni);
 		lbImgNext.style.transform = `translateX(${ dxDir === 'next' ? sw : -sw }px)`;
 	}
 	lbImgCur.style.transform  = `translateX(${ dx }px)`;
@@ -307,17 +289,17 @@ lightbox.addEventListener('touchend', event => {
 	const dx = event.changedTouches[0].clientX - touchStartX;
 	if (swipeDir === 'h' && Math.abs(dx) > 50 && swipePreparedDir !== null) {
 		lbAnimating = true;
-		const sw         = stageW();
-		const outX       = dx < 0 ? -sw : sw;
-		const inX        = dx < 0 ?  sw : -sw;
-		const finalIndex = swipeNextIndex;
-		const finalCast  = castData[finalIndex];
+		const sw        = stageW();
+		const outX      = dx < 0 ? -sw : sw;
+		const inX       = dx < 0 ?  sw : -sw;
+		const finalIdx  = swipeNextIndex;
+		const finalItem = lbDataset[finalIdx];
 		lbImgCur.style.transition  = 'transform .2s ease';
 		lbImgCur.style.transform   = `translateX(${ outX }px)`;
 		lbImgNext.style.transition = 'transform .2s ease';
 		lbImgNext.style.transform  = 'translateX(0)';
 		setTimeout(() => {
-			currentCastIndex = finalIndex;
+			lbIndex = finalIdx;
 			lbImgCur.style.transition = 'none';
 			lbImgCur.style.transform  = 'translateX(0)';
 			const revealCur = () => {
@@ -331,15 +313,15 @@ lightbox.addEventListener('touchend', event => {
 			};
 			lbImgCur.onload  = revealCur;
 			lbImgCur.onerror = revealCur;
-			lbImgCur.src = castDetailSrc(finalCast);
-			lbImgCur.alt = finalCast.name;
+			lbImgCur.src = lbSrcFn(finalItem);
+			lbImgCur.alt = lbAltFn(finalItem);
 			if (lbImgCur.complete) revealCur();
 		}, 220);
 	} else {
 		lbImgCur.style.transition = 'transform .2s ease';
 		lbImgCur.style.transform  = 'translateX(0)';
 		if (swipePreparedDir !== null) {
-			const sw   = stageW();
+			const sw    = stageW();
 			const backX = swipePreparedDir === 'next' ? sw : -sw;
 			lbImgNext.style.transition = 'transform .2s ease';
 			lbImgNext.style.transform  = `translateX(${ backX }px)`;
@@ -351,5 +333,91 @@ lightbox.addEventListener('touchend', event => {
 		}
 	}
 }, { passive: true });
+
+/* ===== Cast data load & render ===== */
+let castData = [];
+
+function castDetailSrc(cast) {
+	return cast.detailImage || cast.image;
+}
+
+function loadCast() {
+	castData = Array.isArray(window.CAST_DATA) ? [...window.CAST_DATA] : [];
+	castData.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+	renderCast();
+}
+
+function renderCast() {
+	const grid = document.getElementById('cast-grid');
+	grid.innerHTML = '';
+
+	castData.forEach((cast, i) => {
+		const card = document.createElement('div');
+		card.className = 'cast-card reveal visible';
+
+		const imageWrap = document.createElement('div');
+		imageWrap.className = 'cast-image';
+
+		const image = document.createElement('img');
+		image.src = cast.image;
+		image.alt = cast.name;
+		image.loading = 'lazy';
+		image.decoding = 'async';
+		image.addEventListener('error', () => {
+			const placeholder = document.createElement('div');
+			placeholder.className = 'cast-image-placeholder';
+			placeholder.textContent = cast.name;
+			imageWrap.replaceChildren(placeholder);
+		});
+		imageWrap.appendChild(image);
+
+		card.appendChild(imageWrap);
+		card.addEventListener('click', () => openLightboxWith(
+			castData,
+			castDetailSrc,
+			c => c.name,
+			i
+		));
+		grid.appendChild(card);
+	});
+}
+
+loadCast();
+
+/* ===== Gallery data load & render ===== */
+let galleryData = [];
+
+function loadGallery() {
+	galleryData = Array.isArray(window.GALLERY_DATA) ? [...window.GALLERY_DATA] : [];
+	renderGallery();
+}
+
+function renderGallery() {
+	const grid = document.getElementById('gallery-grid');
+	if (!grid) return;
+	grid.innerHTML = '';
+
+	galleryData.forEach((item, i) => {
+		const wrap = document.createElement('div');
+		wrap.className = 'gallery-item reveal visible';
+
+		const img = document.createElement('img');
+		img.src     = item.image;
+		img.alt     = 'ギャラリー画像 ' + (i + 1);
+		img.loading = 'lazy';
+		img.decoding = 'async';
+
+		wrap.appendChild(img);
+		wrap.addEventListener('click', () => openLightboxWith(
+			galleryData,
+			g => g.image,
+			() => 'ギャラリー画像',
+			i
+		));
+		grid.appendChild(wrap);
+	});
+}
+
+loadGallery();
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
