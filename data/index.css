@@ -440,7 +440,6 @@ nav {
   overflow: hidden;
   align-items: center;
   justify-content: center;
-  gap: 1.2rem;
   padding: 1rem;
   backdrop-filter: blur(8px);
 }
@@ -453,7 +452,7 @@ nav {
   transform: translateZ(0);
   clip-path: inset(0);
   width: auto;
-  max-width: min(82vw, calc(100vw - 160px));
+  max-width: min(90vw, calc(100vw - 7rem));
   max-height: 92svh;
   border-radius: 16px;
   box-shadow:
@@ -508,7 +507,9 @@ nav {
 #lightbox-close:hover { background: var(--gold-bright); }
 
 .lb-arrow {
-  flex-shrink: 0;
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
   background: rgba(201, 161, 74, .88);
   border: 1px solid rgba(255, 255, 255, .3);
   color: white;
@@ -521,15 +522,17 @@ nav {
   align-items: center;
   justify-content: center;
   transition: background .2s;
-  z-index: 2;
+  z-index: 1001;
 }
+#lb-prev { left: 1rem; }
+#lb-next { right: 1rem; }
 .lb-arrow:hover { background: var(--gold-bright); }
 
 @media (max-width: 768px) {
   .lb-arrow { display: none; }
   #lb-stage { max-width: 100vw; max-height: 100svh; border-radius: 0; }
   #lb-img-cur { max-height: 100svh; }
-  #lightbox { padding: 0; gap: 0; }
+  #lightbox { padding: 0; }
 }
 
 /* ===== Campaign Section ===== */
