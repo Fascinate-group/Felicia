@@ -1,11 +1,23 @@
 /* ===== Hero background slideshow ===== */
 (function () {
-	const BASE    = 'images/bg/Felicia_Background_';
-	const EXT     = '.png';
+	const BASE     = 'images/bg/Felicia_Background_';
+	const EXT      = '.jpg';
 	const INTERVAL = 5000; // ms
 	const DURATION = 1000;  // slide animation ms
 
-	/* 1始まりで連番ファイルを順番に存在確認し、全件揃ったらスライドショー起動 */
+	const hero  = document.getElementById('hero');
+	const first = hero.firstChild;
+	const logo  = document.querySelector('.hero-logo');
+
+	/* BG1 ロード完了後にページを表示し、ロゴをフェードイン */
+	function revealPage() {
+		document.body.classList.remove('page-loading');
+		setTimeout(function () {
+			if (logo) logo.classList.add('logo-visible');
+		}, 200);
+	}
+
+	/* index 以降の連番ファイルをバックグラウンドで探索 */
 	function probeImages(index, urls, onDone) {
 		const url = BASE + index + EXT;
 		const img = new Image();
@@ -14,60 +26,60 @@
 		img.src     = url;
 	}
 
-	probeImages(1, [], function (urls) {
-		if (urls.length === 0) return; // 画像なし
+	/* 2枚目以降の div を追加してスライドショーを起動 */
+	function setupSlideshow(urls, firstDiv) {
+		if (urls.length < 2) return;
 
-		const hero  = document.getElementById('hero');
-		const first = hero.firstChild;
-
-		/* 各URLに対応する div.hero-bg を生成（ヒーロー先頭に挿入） */
-		const divs = urls.map(function (url, i) {
+		const divs = [firstDiv];
+		for (let i = 1; i < urls.length; i++) {
 			const div = document.createElement('div');
 			div.className = 'hero-bg';
 			div.setAttribute('aria-hidden', 'true');
-			div.style.backgroundImage = 'url("' + url + '")';
-			div.style.transform       = i === 0 ? 'translateX(0)' : 'translateX(100%)';
+			div.style.backgroundImage = 'url("' + urls[i] + '")';
+			div.style.transform       = 'translateX(100%)';
 			hero.insertBefore(div, first);
-
-			/* 最初のスライドだけ: 画像ロード完了後にフェードイン */
-			if (i === 0) {
-				const probe = new Image();
-				probe.onload = probe.onerror = function () {
-					div.classList.add('is-visible');
-				};
-				probe.src = url;
-				if (probe.complete) div.classList.add('is-visible');
-			} else {
-				/* 2枚目以降はスライドアニメで登場するので即時表示 */
-				div.classList.add('is-visible');
-			}
-
-			return div;
-		});
-
-		if (divs.length < 2) return; // 1枚だけなら切り替え不要
+			divs.push(div);
+		}
 
 		let current = 0;
 
 		function nextSlide() {
 			const next = (current + 1) % divs.length;
-
-			/* 次スライドを右に即配置（アニメなし） */
 			divs[next].style.transition = 'none';
 			divs[next].style.transform  = 'translateX(100%)';
 			divs[next].getBoundingClientRect(); // reflow
-
-			/* 現スライドを左へ、次スライドを中央へ */
 			divs[current].style.transition = 'transform ' + DURATION + 'ms ease-in-out';
 			divs[current].style.transform  = 'translateX(-100%)';
 			divs[next].style.transition    = 'transform ' + DURATION + 'ms ease-in-out';
 			divs[next].style.transform     = 'translateX(0)';
-
 			current = next;
 		}
 
 		setInterval(nextSlide, INTERVAL);
-	});
+	}
+
+	/* BG1 を最優先ロード：完了したらページを表示して残りを探索 */
+	const bg1url = BASE + 1 + EXT;
+	const bg1div = document.createElement('div');
+	bg1div.className = 'hero-bg';
+	bg1div.setAttribute('aria-hidden', 'true');
+	bg1div.style.backgroundImage = 'url("' + bg1url + '")';
+	bg1div.style.transform       = 'translateX(0)';
+	hero.insertBefore(bg1div, first);
+
+	const bg1probe = new Image();
+	bg1probe.onload = function () {
+		revealPage();
+		probeImages(2, [bg1url], function (urls) {
+			setupSlideshow(urls, bg1div);
+		});
+	};
+	bg1probe.onerror = function () {
+		/* BG1 が存在しない場合は div を除去してそのままページを表示 */
+		if (bg1div.parentNode) bg1div.parentNode.removeChild(bg1div);
+		revealPage();
+	};
+	bg1probe.src = bg1url;
 })();
 
 /* ===== Feathers ===== */
