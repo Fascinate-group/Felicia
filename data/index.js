@@ -202,59 +202,48 @@ function slideAnimate(nextIndex, direction) {
 	if (lbAnimating) return;
 	lbAnimating = true;
 
-	const item = lbDataset[nextIndex];
+	const item   = lbDataset[nextIndex];
+	const oldSrc = lbSrcFn(lbDataset[lbIndex]); // 現在表示中の画像 URL
 
-	/* 次画像を透明状態でステージに重ねて準備 */
+	/* ── 旧画像を lbImgNext（z-index:2）に保持してフェードアウト用に使う ── */
+	lbImgNext.src  = oldSrc;
+	lbImgNext.alt  = '';
 	lbImgNext.style.transition = 'none';
 	lbImgNext.style.transform  = 'translateX(0)';
-	lbImgNext.style.opacity    = '0';
+	lbImgNext.style.opacity    = '1'; // 表面で旧画像を表示
+
+	/* ── lbImgCur（z-index:1）に新画像をロード → stage が最終サイズになる ── */
+	lbImgCur.style.transition = 'none';
+	lbImgCur.style.opacity    = '1';
+	lbImgCur.style.transform  = 'translateX(0)';
+	lbImgCur.onload = lbImgCur.onerror = null;
 
 	const doFade = () => {
-		lbImgNext.onload = lbImgNext.onerror = null;
+		lbImgCur.onload = lbImgCur.onerror = null;
+		/* この時点で stage は新画像の最終サイズ。旧画像（lbImgNext）をフェードアウト */
 		lbImgNext.getBoundingClientRect(); // reflow
-
-		/* クロスフェード: 現画像フェードアウト ＆ 次画像フェードイン */
-		lbImgCur.style.transition  = 'opacity .3s ease';
-		lbImgCur.style.opacity     = '0';
 		lbImgNext.style.transition = 'opacity .3s ease';
-		lbImgNext.style.opacity    = '1';
+		lbImgNext.style.opacity    = '0';
 
 		setTimeout(() => {
 			lbIndex = nextIndex;
-
-			/* lbImgCur を不透明に戻してから src を差し替え */
-			lbImgCur.style.transition = 'none';
-			lbImgCur.style.opacity    = '1';
-			lbImgCur.onload = lbImgCur.onerror = null;
-
-			const finalize = () => {
-				lbImgCur.onload = lbImgCur.onerror = null;
-				lbImgCur.style.transform   = 'translateX(0)';
-				/* lbImgNext をオフスクリーンにリセット */
-				lbImgNext.style.transition = 'none';
-				lbImgNext.style.transform  = 'translateX(100%)';
-				lbImgNext.style.opacity    = '1';
-				lbImgNext.src = '';
-				lbAnimating   = false;
-				preloadAdjacent(lbIndex);
-			};
-
-			lbImgCur.onload  = finalize;
-			lbImgCur.onerror = finalize;
-			lbImgCur.src = lbSrcFn(item);
-			lbImgCur.alt = lbAltFn(item);
-
-			if (lbImgCur.complete) finalize();
+			lbImgNext.style.transition = 'none';
+			lbImgNext.style.transform  = 'translateX(100%)';
+			lbImgNext.style.opacity    = '1';
+			lbImgNext.src = '';
+			lbAnimating   = false;
+			preloadAdjacent(lbIndex);
 		}, 320);
 	};
 
-	/* キャッシュ済みなら即フェード、未ロードなら onload 後 */
-	lbImgNext.src = lbSrcFn(item);
-	if (lbImgNext.complete) {
+	/* 新画像をセット：キャッシュ済みなら即フェード、未ロードなら onload 後 */
+	lbImgCur.src = lbSrcFn(item);
+	lbImgCur.alt = lbAltFn(item);
+	if (lbImgCur.complete) {
 		doFade();
 	} else {
-		lbImgNext.onload  = doFade;
-		lbImgNext.onerror = doFade;
+		lbImgCur.onload  = doFade;
+		lbImgCur.onerror = doFade;
 	}
 }
 
