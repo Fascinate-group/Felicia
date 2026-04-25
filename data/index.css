@@ -443,6 +443,9 @@ nav {
 #lb-stage {
   position: relative;
   overflow: hidden;
+  /* iOS Safari でtransform子要素がoverflow:hiddenをすり抜けるバグ対策 */
+  transform: translateZ(0);
+  clip-path: inset(0);
   width: auto;
   max-width: min(82vw, calc(100vw - 160px));
   max-height: 92svh;
