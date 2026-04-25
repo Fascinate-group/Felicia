@@ -28,6 +28,20 @@
 			div.style.backgroundImage = 'url("' + url + '")';
 			div.style.transform       = i === 0 ? 'translateX(0)' : 'translateX(100%)';
 			hero.insertBefore(div, first);
+
+			/* 最初のスライドだけ: 画像ロード完了後にフェードイン */
+			if (i === 0) {
+				const probe = new Image();
+				probe.onload = probe.onerror = function () {
+					div.classList.add('is-visible');
+				};
+				probe.src = url;
+				if (probe.complete) div.classList.add('is-visible');
+			} else {
+				/* 2枚目以降はスライドアニメで登場するので即時表示 */
+				div.classList.add('is-visible');
+			}
+
 			return div;
 		});
 

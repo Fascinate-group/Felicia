@@ -194,7 +194,12 @@ nav {
   background-position: center;
   background-repeat: no-repeat;
   z-index: 0;
+  opacity: 0;
   /* background-image と transform は JS が設定 */
+}
+.hero-bg.is-visible {
+  opacity: 1;
+  transition: opacity .6s ease;
 }
 
 .hero-overlay { display: none; }
