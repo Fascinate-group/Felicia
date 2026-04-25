@@ -109,8 +109,8 @@ const observer = new IntersectionObserver(entries => {
 /* ===== Lightbox (汎用) ===== */
 const lightbox  = document.getElementById('lightbox');
 const lbStage   = document.getElementById('lb-stage');
-const lbImgCur  = document.getElementById('lb-img-cur');
-const lbImgNext = document.getElementById('lb-img-next');
+let   lbImgCur  = document.getElementById('lb-img-cur');
+let   lbImgNext = document.getElementById('lb-img-next');
 const lbClose   = document.getElementById('lightbox-close');
 const lbPrev    = document.getElementById('lb-prev');
 const lbNext    = document.getElementById('lb-next');
@@ -181,23 +181,18 @@ function slideAnimate(nextIndex, direction) {
 
 	setTimeout(() => {
 		lbIndex = nextIndex;
-		lbImgCur.style.transition = 'none';
-		lbImgCur.style.transform  = 'translateX(0)';
 
-		const revealCur = () => {
-			lbImgCur.onload = lbImgCur.onerror = null;
-			lbImgNext.style.transition = 'none';
-			lbImgNext.style.transform  = `translateX(${ inX }px)`;
-			lbImgNext.src = '';
-			lbAnimating = false;
-		};
+		/* lbImgNext が新画像を表示中なのでそのまま cur に昇格させる */
+		const tmp = lbImgCur;
+		lbImgCur  = lbImgNext;
+		lbImgNext = tmp;
 
-		lbImgCur.onload  = revealCur;
-		lbImgCur.onerror = revealCur;
-		lbImgCur.src = lbSrcFn(item);
-		lbImgCur.alt = lbAltFn(item);
+		/* 旧 cur（now next）をオフスクリーンへ退避してクリア */
+		lbImgNext.style.transition = 'none';
+		lbImgNext.style.transform  = `translateX(${ inX }px)`;
+		lbImgNext.src = '';
 
-		if (lbImgCur.complete) revealCur();
+		lbAnimating = false;
 	}, 260);
 }
 
@@ -212,7 +207,9 @@ function showNext() {
 lbClose.addEventListener('click', closeLightbox);
 lbPrev.addEventListener('click', event => { event.stopPropagation(); showPrev(); });
 lbNext.addEventListener('click', event => { event.stopPropagation(); showNext(); });
-lbImgCur.addEventListener('click', closeLightbox);
+/* swap後もどちらの要素をクリックしても閉じられるよう両方に付ける */
+document.getElementById('lb-img-cur').addEventListener('click', closeLightbox);
+document.getElementById('lb-img-next').addEventListener('click', closeLightbox);
 lightbox.addEventListener('click', event => {
 	if (event.target === lightbox) closeLightbox();
 });
@@ -300,22 +297,18 @@ lightbox.addEventListener('touchend', event => {
 		lbImgNext.style.transform  = 'translateX(0)';
 		setTimeout(() => {
 			lbIndex = finalIdx;
-			lbImgCur.style.transition = 'none';
-			lbImgCur.style.transform  = 'translateX(0)';
-			const revealCur = () => {
-				lbImgCur.onload = lbImgCur.onerror = null;
-				lbImgNext.style.transition = 'none';
-				lbImgNext.style.transform  = `translateX(${ inX }px)`;
-				lbImgNext.src    = '';
-				swipePreparedDir = null;
-				swipeNextIndex   = -1;
-				lbAnimating      = false;
-			};
-			lbImgCur.onload  = revealCur;
-			lbImgCur.onerror = revealCur;
-			lbImgCur.src = lbSrcFn(finalItem);
-			lbImgCur.alt = lbAltFn(finalItem);
-			if (lbImgCur.complete) revealCur();
+
+			/* swap: lbImgNext（新画像表示中）を cur に昇格 */
+			const tmp = lbImgCur;
+			lbImgCur  = lbImgNext;
+			lbImgNext = tmp;
+
+			lbImgNext.style.transition = 'none';
+			lbImgNext.style.transform  = `translateX(${ inX }px)`;
+			lbImgNext.src    = '';
+			swipePreparedDir = null;
+			swipeNextIndex   = -1;
+			lbAnimating      = false;
 		}, 220);
 	} else {
 		lbImgCur.style.transition = 'transform .2s ease';
