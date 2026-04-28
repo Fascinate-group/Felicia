@@ -130,11 +130,11 @@ nav {
 }
 
 .nav-title-sub {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: .65rem;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 1rem;
   font-weight: 400;
-  letter-spacing: .12em;
-  color: var(--text-light);
+  letter-spacing: .2em;
+  color: var(--text-mid);
 }
 
 .nav-title-ja {
