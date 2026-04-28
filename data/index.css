@@ -210,31 +210,6 @@ nav {
 
 .hero-overlay { display: none; }
 
-/* ロゴ＋キャッチコピーをまとめるラッパー（レイアウト上の flex アイテム） */
-.hero-logo-wrap {
-  position: relative;
-  z-index: 1;
-}
-
-/* キャッチコピー：ロゴ直上に absolute 配置（ロゴ位置に影響しない） */
-.hero-catchcopy {
-  position: absolute;
-  bottom: calc(100% - 3.5rem);
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  font-family: 'Shippori Mincho', serif;
-  font-size: clamp(1.05rem, 2.8vw, 1.7rem);
-  letter-spacing: .32em;
-  color: #fff;
-  text-shadow:
-    0 0 14px rgba(255, 240, 180, .95),
-    0 0 35px rgba(220, 180, 80, .75),
-    0 0 70px rgba(200, 150, 50, .5);
-  opacity: 0;
-  transition: opacity 1s ease .2s;
-}
-.hero-catchcopy.logo-visible { opacity: 1; }
 
 .hero-logo {
   position: relative;
@@ -272,7 +247,6 @@ nav {
 @keyframes blink { 0%, 100% { opacity: 1 } 50% { opacity: .25 } }
 
 @media (max-width: 768px) {
-  .hero-catchcopy { font-size: clamp(.95rem, 5vw, 1.4rem); }
   .hero-logo { height: min(52vh, 380px); width: auto; min-height: 260px; }
   .hero-scroll { bottom: 12rem; }
 }
