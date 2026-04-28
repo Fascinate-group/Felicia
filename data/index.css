@@ -129,6 +129,14 @@ nav {
   white-space: nowrap;
 }
 
+.nav-title-sub {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: .65rem;
+  font-weight: 400;
+  letter-spacing: .12em;
+  color: var(--text-light);
+}
+
 .nav-title-ja {
   font-family: 'Shippori Mincho', serif;
   font-size: 1rem;
