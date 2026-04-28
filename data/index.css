@@ -176,6 +176,7 @@ nav {
     gap: .25rem;
   }
   .nav-title { gap: .3rem; }
+  .nav-title-sub { font-size: .48rem; }
   .nav-title-ja { font-size: .48rem; }
   .nav-title-en { font-size: .85rem; }
   .nav-links {
