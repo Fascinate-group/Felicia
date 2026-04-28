@@ -320,6 +320,7 @@ nav {
   height: auto;
   position: relative;
   z-index: 3;
+  transform: translateX(1.5%);
 }
 
 /* ===== About / Event Info ===== */
