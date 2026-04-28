@@ -211,7 +211,7 @@ nav {
 /* キャッチコピー：ロゴ直上に absolute 配置（ロゴ位置に影響しない） */
 .hero-catchcopy {
   position: absolute;
-  bottom: calc(100% + .3rem);
+  bottom: calc(100% - 3.5rem);
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
