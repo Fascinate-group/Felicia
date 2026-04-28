@@ -767,7 +767,7 @@ footer {
 }
 
 .footer-logo {
-  width: min(640px, 92vw);
+  width: min(280px, 60vw);
   margin-bottom: 1.6rem;
 }
 
