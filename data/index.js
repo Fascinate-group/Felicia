@@ -7,13 +7,15 @@
 
 	const hero  = document.getElementById('hero');
 	const first = hero.firstChild;
-	const logo  = document.querySelector('.hero-logo');
+	const logo      = document.querySelector('.hero-logo');
+	const catchcopy = document.querySelector('.hero-catchcopy');
 
 	/* BG1 ロード完了後にページを表示し、ロゴをフェードイン */
 	function revealPage() {
 		document.body.classList.remove('page-loading');
 		setTimeout(function () {
-			if (logo) logo.classList.add('logo-visible');
+			if (catchcopy) catchcopy.classList.add('logo-visible');
+		if (logo) logo.classList.add('logo-visible');
 		}, 200);
 	}
 
