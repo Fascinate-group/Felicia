@@ -20,12 +20,6 @@ window.CAST_DATA = [
     detailImage: "images/cast/003_モチ=もち_Detail.png"
   },
   {
-    order: 4,
-    name: "ルーナ・エステレラ",
-    image: "images/cast/004_ルーナ・エステレラ.png",
-    detailImage: "images/cast/004_ルーナ・エステレラ_Detail.png"
-  },
-  {
     order: 5,
     name: "アネモネ",
     image: "images/cast/005_アネモネ.png",
@@ -144,12 +138,6 @@ window.CAST_DATA = [
     name: "アイン",
     image: "images/cast/024_アイン.png",
     detailImage: "images/cast/024_アイン_Detail.png"
-  },
-  {
-    order: 25,
-    name: "フル=ルナリエ",
-    image: "images/cast/025_フル=ルナリエ.png",
-    detailImage: "images/cast/025_フル=ルナリエ_Detail.png"
   },
   {
     order: 26,
