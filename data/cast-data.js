@@ -39,9 +39,9 @@ window.CAST_DATA = [
   },
   {
     order: 8,
-    name: "グレイ・スレノディー",
-    image: "images/cast/008_グレイ・スレノディー.png",
-    detailImage: "images/cast/008_グレイ・スレノディー_Detail.png"
+    name: "グレイ",
+    image: "images/cast/008_グレイ.png",
+    detailImage: "images/cast/008_グレイ_Detail.png"
   },
   {
     order: 9,
