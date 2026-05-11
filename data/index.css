@@ -87,6 +87,19 @@ section, nav, footer { position: relative; z-index: 1; }
   color: var(--text-dark);
   margin-bottom: 0;
 }
+/* 全キャスト紹介リンク（出勤フィルター有効時のみ表示） */
+#cast-all-link {
+  display: block;
+  text-align: center;
+  margin: -.8rem auto 2rem;
+  font-size: .82rem;
+  letter-spacing: .1em;
+  color: var(--gold);
+  text-decoration: none;
+  opacity: .8;
+  transition: opacity .2s;
+}
+#cast-all-link:hover { opacity: 1; text-decoration: underline; }
 
 /* ===== Divider ===== */
 .divider {

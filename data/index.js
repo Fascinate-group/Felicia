@@ -439,10 +439,12 @@ function renderCast(attendingSet) {
 	grid.innerHTML = '';
 
 	/* セクションタイトルを出勤フィルター有無で切り替え */
-	const castLabel = document.getElementById('cast-section-label');
-	const castSub   = document.getElementById('cast-section-sub');
-	if (castLabel) castLabel.textContent = attendingSet ? '本日の出勤キャスト' : 'キャスト紹介';
-	if (castSub)   castSub.textContent   = attendingSet ? 'ATTENDING' : 'CAST';
+	const castLabel   = document.getElementById('cast-section-label');
+	const castSub     = document.getElementById('cast-section-sub');
+	const castAllLink = document.getElementById('cast-all-link');
+	if (castLabel)   castLabel.textContent = attendingSet ? '本日の出勤キャスト' : 'キャスト紹介';
+	if (castSub)     castSub.textContent   = attendingSet ? 'ATTENDING' : 'CAST';
+	if (castAllLink) castAllLink.hidden    = !attendingSet;
 
 	/* lightbox 用：出勤フィルターが有効な場合は出勤キャストのみ対象にする */
 	const lbTargets = attendingSet
