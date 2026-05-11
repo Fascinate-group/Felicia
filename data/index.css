@@ -78,6 +78,15 @@ section, nav, footer { position: relative; z-index: 1; }
   color: var(--gold);
   margin-bottom: .5rem;
 }
+/* タイトル本文スパン（キャスト紹介 / 本日の出勤キャスト）は親のスタイルを継承 */
+#cast-section-label {
+  display: inline;
+  font-family: inherit;
+  font-size: 1em;
+  letter-spacing: .12em;
+  color: var(--text-dark);
+  margin-bottom: 0;
+}
 
 /* ===== Divider ===== */
 .divider {
@@ -427,6 +436,17 @@ nav {
 }
 .cast-card:hover .cast-image img {
   transform: scale(1.04);
+}
+
+/* 出勤フィルター：非出勤キャストを暗く */
+.cast-card.cast-dimmed {
+  opacity: 0.12;
+  filter: grayscale(0.8) brightness(0.6);
+  pointer-events: none;   /* クリック・ホバー無効 */
+}
+.cast-card.cast-dimmed:hover {
+  transform: none;
+  box-shadow: 0 4px 18px rgba(201, 161, 74, .14);
 }
 
 /* Placeholder when no image */

@@ -387,6 +387,33 @@ lightbox.addEventListener('touchend', event => {
 	}
 }, { passive: true });
 
+/* ===== Attending cast filter (URL params) ===== */
+function getAttendingParams() {
+	const params = new URLSearchParams(window.location.search);
+	const dateStr = (params.get('date') || '').trim();
+	const rawOrders = [...params.getAll('orders'), ...params.getAll('order')];
+	const orders = rawOrders
+		.flatMap(v => v.split(','))
+		.map(v => parseInt(v.trim(), 10))
+		.filter(v => Number.isFinite(v) && v > 0);
+	return { dateStr, orders: [...new Set(orders)] };
+}
+
+function getTodayString() {
+	const d = new Date();
+	return d.getFullYear() + '-' +
+		String(d.getMonth() + 1).padStart(2, '0') + '-' +
+		String(d.getDate()).padStart(2, '0');
+}
+
+function isValidDateStr(str) {
+	if (!/^\d{4}-\d{2}-\d{2}$/.test(str)) return false;
+	const [y, m, d] = str.split('-').map(Number);
+	const dt = new Date(y, m - 1, d);
+	return !isNaN(dt.getTime()) &&
+		dt.getFullYear() === y && dt.getMonth() === m - 1 && dt.getDate() === d;
+}
+
 /* ===== Cast data load & render ===== */
 let castData = [];
 
@@ -397,16 +424,36 @@ function castDetailSrc(cast) {
 function loadCast() {
 	castData = Array.isArray(window.CAST_DATA) ? [...window.CAST_DATA] : [];
 	castData.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-	renderCast();
+
+	/* 出勤フィルター判定 */
+	const { dateStr, orders } = getAttendingParams();
+	const today = getTodayString();
+	const filterActive = isValidDateStr(dateStr) && dateStr === today && orders.length > 0;
+	const attendingSet = filterActive ? new Set(orders) : null;
+
+	renderCast(attendingSet);
 }
 
-function renderCast() {
+function renderCast(attendingSet) {
 	const grid = document.getElementById('cast-grid');
 	grid.innerHTML = '';
 
-	castData.forEach((cast, i) => {
+	/* セクションタイトルを出勤フィルター有無で切り替え */
+	const castLabel = document.getElementById('cast-section-label');
+	const castSub   = document.getElementById('cast-section-sub');
+	if (castLabel) castLabel.textContent = attendingSet ? '本日の出勤キャスト' : 'キャスト紹介';
+	if (castSub)   castSub.textContent   = attendingSet ? 'ATTENDING' : 'CAST';
+
+	/* lightbox 用：出勤フィルターが有効な場合は出勤キャストのみ対象にする */
+	const lbTargets = attendingSet
+		? castData.filter(c => attendingSet.has(c.order))
+		: castData;
+
+	castData.forEach(cast => {
+		const isDimmed = attendingSet !== null && !attendingSet.has(cast.order);
+
 		const card = document.createElement('div');
-		card.className = 'cast-card reveal visible';
+		card.className = 'cast-card reveal visible' + (isDimmed ? ' cast-dimmed' : '');
 
 		const imageWrap = document.createElement('div');
 		imageWrap.className = 'cast-image';
@@ -425,12 +472,17 @@ function renderCast() {
 		imageWrap.appendChild(image);
 
 		card.appendChild(imageWrap);
-		card.addEventListener('click', () => openLightboxWith(
-			castData,
-			castDetailSrc,
-			c => c.name,
-			i
-		));
+
+		if (!isDimmed) {
+			const lbIndex = lbTargets.indexOf(cast);
+			card.addEventListener('click', () => openLightboxWith(
+				lbTargets,
+				castDetailSrc,
+				c => c.name,
+				lbIndex
+			));
+		}
+
 		grid.appendChild(card);
 	});
 }
