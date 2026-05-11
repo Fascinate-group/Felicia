@@ -88,6 +88,7 @@ section, nav, footer { position: relative; z-index: 1; }
   margin-bottom: 0;
 }
 /* 全キャスト紹介リンク（出勤フィルター有効時のみ表示） */
+#cast-all-link[hidden] { display: none; }
 #cast-all-link {
   display: block;
   text-align: center;
