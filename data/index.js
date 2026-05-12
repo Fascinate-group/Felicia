@@ -442,7 +442,7 @@ function renderCast(attendingSet) {
 	const castLabel   = document.getElementById('cast-section-label');
 	const castSub     = document.getElementById('cast-section-sub');
 	const castAllLink = document.getElementById('cast-all-link');
-	if (castLabel)   castLabel.textContent = attendingSet ? '本日の出勤キャスト' : 'キャスト紹介';
+	if (castLabel)   castLabel.textContent = attendingSet ? '本日ご出席される天使様' : '天使様のご紹介';
 	if (castSub)     castSub.textContent   = attendingSet ? 'ATTENDING' : 'CAST';
 	if (castAllLink) castAllLink.hidden    = !attendingSet;
 
