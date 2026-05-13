@@ -149,5 +149,10 @@ window.CAST_DATA = [
     order: 27,
     name: "アドルメア",
     image: "images/cast/027_アドルメア.png"
+  },
+  {
+    order: 28,
+    name: "スティーズ・フルール",
+    image: "images/cast/028_スティーズ・フルール.png"
   }
 ];
