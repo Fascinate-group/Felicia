@@ -15,6 +15,7 @@ window.GALLERY_DATA = [
   { image: 'images/gallery/24.815.jpg' },
   { image: 'images/gallery/25.659.jpg' },
   { image: 'images/gallery/25.686.jpg' },
+  { image: 'images/gallery/26.000.png' },
   { image: 'images/gallery/26.302.jpg' },
   { image: 'images/gallery/28.023.jpg' },
   { image: 'images/gallery/33.973.jpg' },
