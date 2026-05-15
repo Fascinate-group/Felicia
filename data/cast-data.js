@@ -73,12 +73,7 @@ window.CAST_DATA = [
     image: "images/cast/013_ソーマ.png",
     detailImage: "images/cast/013_ソーマ_Detail.png"
   },
-  {
-    order: 14,
-    name: "シエル",
-    image: "images/cast/014_シエル.png",
-    detailImage: "images/cast/014_シエル_Detail.png"
-  },
+  /* 014_シエル は一時非表示（画像ファイルは保持） */
   {
     order: 15,
     name: "セラフィオン",
@@ -154,5 +149,11 @@ window.CAST_DATA = [
     order: 28,
     name: "スティーズ・フルール",
     image: "images/cast/028_スティーズ・フルール.png"
+  },
+  {
+    order: 29,
+    name: "プリュヴィエル",
+    image: "images/cast/029_プリュヴィエル.png",
+    detailImage: "images/cast/029_プリュヴィエル_Detail.png"
   }
 ];
