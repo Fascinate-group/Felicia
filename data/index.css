@@ -752,6 +752,58 @@ nav {
   background: #1a1a1a;
 }
 
+/* 再生前サムネイルオーバーレイ */
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  transition: opacity .3s ease;
+}
+.video-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 5, 20, .28);
+}
+.video-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(201, 161, 74, .88);
+  border: 2px solid rgba(255, 255, 255, .55);
+  box-shadow: 0 0 30px rgba(201, 161, 74, .5), 0 4px 20px rgba(0,0,0,.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .2s ease, background .2s ease;
+  pointer-events: none;
+}
+.video-play-btn::before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 14px 0 14px 26px;
+  border-color: transparent transparent transparent #fff;
+  margin-left: 5px;
+}
+.video-overlay:hover .video-play-btn {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: rgba(201, 161, 74, 1);
+}
+.video-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* ===== Gallery ===== */
 #gallery {
   padding: 6rem 1.5rem;

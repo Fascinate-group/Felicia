@@ -527,4 +527,21 @@ function renderGallery() {
 
 loadGallery();
 
+/* ===== Video overlay (再生前サムネイル＋再生ボタン) ===== */
+(function () {
+	const video   = document.getElementById('event-video');
+	const overlay = document.getElementById('video-overlay');
+	if (!video || !overlay) return;
+
+	overlay.addEventListener('click', function () {
+		overlay.classList.add('hidden');
+		video.play();
+	});
+
+	/* 動画が終わったらオーバーレイを再表示 */
+	video.addEventListener('ended', function () {
+		overlay.classList.remove('hidden');
+	});
+})();
+
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
